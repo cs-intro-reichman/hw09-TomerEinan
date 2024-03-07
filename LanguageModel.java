@@ -109,3 +109,44 @@ public class LanguageModel {
     
         return result;
     }
+    public String generate(String initialText, int textLength) { 
+        if (initialText.length() < windowLength) { 
+        return initialText; 
+        }
+        String window = initialText.substring(initialText.length() - windowLength); 
+        String generatedText = window; 
+        int numberOfLetters = textLength + windowLength; 
+        while ((generatedText.length() < numberOfLetters)) { 
+        List currList = CharDataMap.get(window); 
+        if (currList == null) { 
+        break; 
+        } 
+        generatedText += getRandomChar(currList); 
+        window = generatedText.substring(generatedText.length() - windowLength); 
+        } 
+        return generatedText; 
+        } 
+    /** Returns a string representing the map of this language model. */
+	public String toString() {
+		StringBuilder str = new StringBuilder();
+		for (String key : CharDataMap.keySet()) {
+			List keyProbs = CharDataMap.get(key);
+			str.append(key + " : " + keyProbs + "\n");
+		}
+		return str.toString();
+	}
+
+    public static void main(String[] args) {
+		List mylist =new List ();
+        mylist.addFirst(' ');
+        mylist.addFirst('e');
+        mylist.addFirst('e'); 
+        mylist.addFirst('t'); 
+        mylist.addFirst('t');
+        mylist.addFirst('i');
+        mylist.addFirst('m'); 
+        mylist.addFirst('m'); 
+        mylist.addFirst('o');
+        mylist.addFirst('c');
+    }
+}
